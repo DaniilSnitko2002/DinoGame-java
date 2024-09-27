@@ -60,9 +60,9 @@ public class Game extends JPanel {
         Font score = new Font("Arial", Font.BOLD, 30);
         g.setFont(score);
         g.setColor((Color.blue));
-        g1.drawString("Score: " + points,1100, 30);
+        g1.drawString("Score: " + points,1300, 30);
         g1.drawString("Lives: "+ lives,20,30);
-        g1.drawString("Level: "+ level,570,30);
+        g1.drawString("Level: "+ level,670,30);
 
         if(gameEnded){
             g2.setColor(Color.red);

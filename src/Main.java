@@ -8,13 +8,11 @@ public class Main {
 
     public static void main(String[] args) {
 
-        JOptionPane.showMessageDialog(null, "Are you ready?");
-
         JFrame frame = new JFrame();
         Game game = new Game();
         frame.add(game);
-        frame.setSize(1600, 500);
-        frame.setLocation(70,250);
+        frame.setSize(1600, 400);
+        frame.setLocation(70,200);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -36,7 +34,7 @@ public class Main {
                 }
 
                 if(Game.loseLife){
-                    JOptionPane.showMessageDialog(null, "progress carefully!!");
+                    JOptionPane.showMessageDialog(null, "be careful!!");
                     Game.loseLife = false;
                     Game.lives--;
                     Dino.Y_initial=270;

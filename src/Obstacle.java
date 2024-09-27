@@ -1,16 +1,15 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Area;
-import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
 
 public class Obstacle {
     Game game;
 
-    Area head, body, enemy;
+    Area body, enemy;
 
-    int widthObstacle = 50;
+    int widthObstacle = 52;
     int heightObstacle = 90;
 
     static int X_initial = 1600;
@@ -25,8 +24,8 @@ public class Obstacle {
         if(X_initial <=-100){
             Game.points++;
             X_initial = 1600;
-            if(Game.points <=12 && Game.points % 3 == 0){
-                X_aux += -2;
+            if(Game.points <=15 && Game.points % 3 == 0){
+                X_aux -= 2;
                 Game.level++;
             }
         }else{
@@ -45,19 +44,16 @@ public class Obstacle {
         Image obstacle = new ImageIcon(Objects.requireNonNull(getClass().getResource("/multimedia/sprite.png"))).getImage();
         BufferedImage obstacleBuffered = new BufferedImage(obstacle.getWidth(null),obstacle.getHeight(null), BufferedImage.TYPE_INT_ARGB);
         obstacleBuffered.getGraphics().drawImage(obstacle, 0, 0, null);
-        Image obstacleRemastered = obstacleBuffered.getSubimage(800,0,52,90);
+        Image obstacleRemastered = obstacleBuffered.getSubimage(800,0,widthObstacle,heightObstacle);
         g.drawImage(obstacleRemastered, X_initial, Y_initial, widthObstacle,heightObstacle, null);
     }
 
     public Area getBounds(){
-        Ellipse2D form1 = new Ellipse2D.Double(X_initial, Y_initial,40,40);
-        Rectangle form2 = new Rectangle(X_initial+12, Y_initial+16, 50, 53);
+        Rectangle form = new Rectangle(X_initial+15, Y_initial+18, widthObstacle, heightObstacle);
 
-        head = new Area(form1);
-        body = new Area(form2);
+        body = new Area(form);
 
-        enemy = head;
-        enemy.add(head);
+        enemy = body;
         enemy.add(body);
 
         return enemy;
