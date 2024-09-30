@@ -15,6 +15,7 @@ public class Main {
         frame.setLocation(70,200);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
 
         while(true){
 
@@ -39,6 +40,7 @@ public class Main {
                     Game.lives--;
                     Dino.Y_initial=270;
                     Dino.jump = false;
+                    Dino.crouch = false;
                     Obstacle.X_initial = 1600;
                 }
             }

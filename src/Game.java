@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Arrays;
+import java.util.List;
 
 public class Game extends JPanel {
 
@@ -13,6 +15,8 @@ public class Game extends JPanel {
     public static int lives = 3;
     public static int points = 0;
     public static int level = 1;
+
+    private final int[] keysWithAction = {KeyEvent.VK_SPACE, KeyEvent.VK_S};
     public Game(){
 
        addKeyListener(new KeyListener() {
@@ -23,14 +27,23 @@ public class Game extends JPanel {
 
            @Override
            public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() == KeyEvent.VK_SPACE){
+
+               Integer[] numbersInteger = Arrays.stream(keysWithAction).boxed().toArray(Integer[]::new);
+               List<Integer> keyList = Arrays.asList(numbersInteger);
+
+                if(keyList.contains(e.getKeyCode())){
                     dino.keyPressed(e);
                 }
            }
 
            @Override
            public void keyReleased(KeyEvent e) {
+               Integer[] numbersInteger = Arrays.stream(keysWithAction).boxed().toArray(Integer[]::new);
+               List<Integer> keyList = Arrays.asList(numbersInteger);
 
+               if(keyList.contains(e.getKeyCode())){
+                   dino.keyReleased(e);
+               }
            }
        });
        setFocusable(true);
