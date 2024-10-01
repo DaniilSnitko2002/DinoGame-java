@@ -17,8 +17,10 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
 
-        while(true){
+        int counterForImgChange = 0;
 
+        while(true){
+            counterForImgChange++;
             if(Game.gameEnded){
                 restartGame = JOptionPane.showConfirmDialog(null, "You lost, want to restart Game", "You lost", JOptionPane.YES_NO_OPTION);
                 if(restartGame == 0){
@@ -33,7 +35,11 @@ public class Main {
                 } catch (InterruptedException e) {
                     Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, e);
                 }
-
+                if(counterForImgChange == 30){
+                    counterForImgChange = 0;
+                    Dino.changeImage = !Dino.changeImage;
+                    Obstacle.changeImage = !Obstacle.changeImage;
+                }
                 if(Game.loseLife){
                     JOptionPane.showMessageDialog(null, "be careful!!");
                     Game.loseLife = false;

@@ -8,7 +8,7 @@ import java.util.Random;
 public class Obstacle {
     Game game;
 
-    Area enemy, body;
+    Area enemy, body, head;
 
     //Enemy's width and height
     int widthCactusObstacle = 52;
@@ -18,6 +18,7 @@ public class Obstacle {
 
     static int X_initial = 1600;
     static int Y_initial = 270;
+    static boolean changeImage = false;
 
     static int X_aux = -4;
     public Obstacle(Game game){
@@ -78,8 +79,13 @@ public class Obstacle {
     }
 
     private void paintFlyingEnemy(Graphics2D g, BufferedImage obstacleBuffered){
-        Image obstacleRemastered = obstacleBuffered.getSubimage(353,0, widthFlyingEnemyObstacle,heightFlyingEnemyObstacle);
-        g.drawImage(obstacleRemastered, X_initial, Y_initial-40, widthFlyingEnemyObstacle,heightFlyingEnemyObstacle, null);
+        if(!changeImage){
+            Image obstacleRemastered = obstacleBuffered.getSubimage(353,0, widthFlyingEnemyObstacle,heightFlyingEnemyObstacle);
+            g.drawImage(obstacleRemastered, X_initial, Y_initial-40, widthFlyingEnemyObstacle,heightFlyingEnemyObstacle, null);
+        }else{
+            Image obstacleRemastered = obstacleBuffered.getSubimage(260,16, widthFlyingEnemyObstacle,heightFlyingEnemyObstacle);
+            g.drawImage(obstacleRemastered, X_initial, Y_initial-40, widthFlyingEnemyObstacle,heightFlyingEnemyObstacle, null);
+        }
     }
 
     private Area getCactusBounds(){
@@ -94,12 +100,14 @@ public class Obstacle {
     }
 
     private Area getFlyingEnemyBounds(){
-        Rectangle form = new Rectangle(X_initial, Y_initial-38, widthFlyingEnemyObstacle-2, heightFlyingEnemyObstacle-2);
+        Rectangle form1 = new Rectangle(X_initial+32, Y_initial-38, widthFlyingEnemyObstacle-35, heightFlyingEnemyObstacle-5);
+        Rectangle form2 = new Rectangle(X_initial, Y_initial-24, 20, 20);
 
-        body = new Area(form);
-
+        body = new Area(form1);
+        head = new Area(form2);
         enemy = body;
         enemy.add(body);
+        enemy.add(head);
 
         return enemy;
     }

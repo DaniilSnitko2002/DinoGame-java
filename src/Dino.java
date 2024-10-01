@@ -10,11 +10,13 @@ public class Dino {
 
     static boolean jump = false;
     static boolean crouch = false;
+    static boolean changeImage = false;
+
     boolean goingUp = false;
     boolean goingDown = false;
 
     Area character, body, tail, head;
-    int widthCharacter = 90;
+    int widthCharacter = 87;
     int heightCharacter = 100;
 
     static int X_initial = 50;
@@ -60,23 +62,22 @@ public class Dino {
         BufferedImage dinoBuffered = new BufferedImage(dino.getWidth(null),dino.getHeight(null), BufferedImage.TYPE_INT_ARGB);
         dinoBuffered.getGraphics().drawImage(dino, 0, 0, null);
         if(!crouch){
-            Image dinoRemastered = dinoBuffered.getSubimage(1335,0,widthCharacter,heightCharacter);
-            g.drawImage(dinoRemastered, X_initial, Y_initial, widthCharacter,heightCharacter, null);
+            this.paintStandingDino(dinoBuffered, g);
         }else{
-            Image dinoRemastered = dinoBuffered.getSubimage(1862,0,widthCharacter+25,heightCharacter);
-            g.drawImage(dinoRemastered, X_initial, Y_initial, widthCharacter+25,heightCharacter, null);
+            this.paintCrouchingDino(dinoBuffered, g);
         }
     }
 
     public Area getBounds(){
         Rectangle form1 = new Rectangle(X_initial+(widthCharacter/3), crouch? Y_initial+40: Y_initial+5, 20, crouch? heightCharacter/2 : heightCharacter-15);
         Rectangle form2 = new Rectangle(X_initial+5, Y_initial+40, 20, 30);
-        Rectangle form3 = new Rectangle(X_initial+65, crouch ? Y_initial+41: Y_initial+10, crouch ?45 : 23, crouch ? 29: 40);
+        Rectangle formHeadCrouch = new Rectangle(X_initial+65, Y_initial+41, 45, 29);
+        Rectangle formHeadStand = new Rectangle(X_initial+58,  Y_initial+10,  23, 40);
 
 
         body = new Area(form1);
         tail = new Area(form2);
-        head = new Area(form3);
+        head = crouch ? new Area(formHeadCrouch): new Area(formHeadStand);
 
         character = body;
         character.add(body);
@@ -104,6 +105,27 @@ public class Dino {
             if(Y_initial==270){
                 jump = false;
             }
+        }
+    }
+
+    private void paintCrouchingDino(BufferedImage dinoBuffered, Graphics2D g){
+        if(!changeImage){
+            Image dinoRemastered = dinoBuffered.getSubimage(1862,0,widthCharacter+25,heightCharacter);
+            g.drawImage(dinoRemastered, X_initial, Y_initial, widthCharacter+25,heightCharacter, null);
+        }else{
+            Image dinoRemastered = dinoBuffered.getSubimage(1980,0,widthCharacter+25,heightCharacter);
+            g.drawImage(dinoRemastered, X_initial, Y_initial, widthCharacter+25,heightCharacter, null);
+        }
+    }
+
+
+    private void paintStandingDino(BufferedImage dinoBuffered, Graphics2D g){
+        if(!changeImage){
+            Image dinoRemastered = dinoBuffered.getSubimage(1602,0,widthCharacter,heightCharacter);
+            g.drawImage(dinoRemastered, X_initial, Y_initial, widthCharacter,heightCharacter, null);
+        }else{
+            Image dinoRemastered = dinoBuffered.getSubimage(1515,0,widthCharacter, heightCharacter);
+            g.drawImage(dinoRemastered, X_initial, Y_initial, widthCharacter,heightCharacter, null);
         }
     }
 }

@@ -70,7 +70,7 @@ public class Game extends JPanel {
 
     public void paintScore(Graphics2D g){
         Graphics2D g1=g,g2=g;
-        Font score = new Font("Arial", Font.BOLD, 30);
+        Font score = new Font("Arial", Font.BOLD, 25);
         g.setFont(score);
         g.setColor((Color.blue));
         g1.drawString("Score: " + points,1300, 30);
