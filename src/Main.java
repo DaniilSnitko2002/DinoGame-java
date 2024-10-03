@@ -36,6 +36,7 @@ public class Main {
 
         while(true){
             counterForImgChange++;
+            game.repaint();
             if(Game.gameEnded){
                 restartGame = JOptionPane.showConfirmDialog(null, "You lost, want to restart Game", "You lost", JOptionPane.YES_NO_OPTION);
                 if(restartGame == 0){
@@ -44,7 +45,6 @@ public class Main {
                     System.exit((0));
                 }
             }else{
-                game.repaint();
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException e) {
@@ -56,7 +56,6 @@ public class Main {
                     Obstacle.changeImage = !Obstacle.changeImage;
                 }
                 if(Game.loseLife){
-                    JOptionPane.showMessageDialog(null, "be careful!!");
                     Game.loseLife = false;
                     Game.lives--;
                     Dino.Y_initial=270;
@@ -67,7 +66,7 @@ public class Main {
                     Dino.X_aux = 0;
                     Dino.X_initial = 50;
                     Obstacle.X_initial = 1600;
-
+                    Dino.loseLife = true;
                 }
             }
         }

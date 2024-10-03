@@ -15,12 +15,16 @@ public class Dino {
      * goForward is true when the dino is going forward and false when it is not.
      * goBack is true when the dino is going backward and false when it is not.
      * changeImage is true when the dino's image needs to be changed and false when it does not.
+     * loseLife is true when the dino has lost a life and false when it does not.
+     * gameEnded is true when the game has ended and false when it does not.
      */
     static boolean jump = false;
     static boolean crouch = false;
     static boolean goForward = false;
     static boolean goBack = false;
     static boolean changeImage = false;
+    static boolean loseLife = false;
+    int countImageBlink = 0;
 
     /**
      * These variables are used to control the dino's jumping action.
@@ -138,19 +142,36 @@ public class Dino {
 
     /**
      * Paints the dino in the game window.
-     * It loads the sprite sheet, and then either paints the standing dino or the crouching dino,
-     * depending on the value of the crouch field.
-     *
-     * @param g The graphics object used to draw the dino.
+     * If the game has not ended, it paints the dino's image according to its state (standing or crouching).
+     * If the game has ended, it paints the dino's dead image.
+     * @param g The graphics object used to draw the dino
      */
     public void paint(Graphics2D g){
         Image dino = new ImageIcon(Objects.requireNonNull(getClass().getResource("/multimedia/sprite.png"))).getImage();
         BufferedImage dinoBuffered = new BufferedImage(dino.getWidth(null),dino.getHeight(null), BufferedImage.TYPE_INT_ARGB);
         dinoBuffered.getGraphics().drawImage(dino, 0, 0, null);
-        if(!crouch){
-            this.paintStandingDino(dinoBuffered, g);
+
+        if(!Game.gameEnded){
+            if(loseLife && countImageBlink<=50){
+                countImageBlink++;
+                Image dinoRemastered = dinoBuffered.getSubimage(1,1,1,1);
+                g.drawImage(dinoRemastered, 0, 0, 0,0, null);
+            }
+
+            if(countImageBlink==50){
+                countImageBlink = 0;
+                loseLife = false;
+            }
+
+            if(countImageBlink%10==0){
+                if(!crouch){
+                    this.paintStandingDino(dinoBuffered, g);
+                }else{
+                    this.paintCrouchingDino(dinoBuffered, g);
+                }
+            }
         }else{
-            this.paintCrouchingDino(dinoBuffered, g);
+            this.paintDeadDino(dinoBuffered, g);
         }
     }
 
@@ -264,5 +285,17 @@ public class Dino {
             Image dinoRemastered = dinoBuffered.getSubimage(1515,0,widthCharacter, heightCharacter);
             g.drawImage(dinoRemastered, X_initial, Y_initial, widthCharacter,heightCharacter, null);
         }
+    }
+
+    /**
+     * Paints the dead dino in the game window.
+     * The dead dino is drawn from the sprite sheet.
+     *
+     * @param dinoBuffered The sprite sheet containing the dead dino
+     * @param g The graphics object used to draw the dead dino
+     */
+    private void paintDeadDino(BufferedImage dinoBuffered, Graphics2D g){
+        Image dinoRemastered = dinoBuffered.getSubimage(1690,0,widthCharacter,heightCharacter);
+        g.drawImage(dinoRemastered, X_initial, Y_initial, widthCharacter,heightCharacter, null);
     }
 }
