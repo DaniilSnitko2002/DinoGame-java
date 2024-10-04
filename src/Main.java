@@ -4,8 +4,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Main {
-    public static int restartGame = -1;
 
+    /**
+     * This is an object used for synchronization.
+     * It is used by the Game class to pause the game when the game is over.
+     * It is also used by the Main class to pause the game when the user chooses to restart the game.
+     */
+    public static final Object lock = new Object();
 
     /**
      * This is the main method of the program. It creates a new JFrame and adds
@@ -35,16 +40,10 @@ public class Main {
         int counterForImgChange = 0;
 
         while(true){
+
             counterForImgChange++;
             game.repaint();
-            if(Game.gameEnded){
-                restartGame = JOptionPane.showConfirmDialog(null, "You lost, want to restart Game", "You lost", JOptionPane.YES_NO_OPTION);
-                if(restartGame == 0){
-                    restartValues();
-                }else if (restartGame == 1){
-                    System.exit((0));
-                }
-            }else{
+            if(!Game.gameEnded){
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException e) {
@@ -68,22 +67,17 @@ public class Main {
                     Obstacle.X_initial = 1600;
                     Dino.loseLife = true;
                 }
+
+                if(Game.isGamePaused){
+                    synchronized (lock) {
+                        try {
+                            lock.wait();
+                        } catch (InterruptedException e) {
+                            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, e);
+                        }
+                    }
+                }
             }
         }
-    }
-
-    /**
-     * Resets the values of the game to their initial state, so that the game can be restarted.
-     * This method is called when the user chooses to restart the game after losing.
-     * It resets the values of the game to their initial state.
-     */
-    private static void restartValues() {
-        Game.gameEnded = false;
-        Obstacle.X_aux = -4;
-        Game.points = 0;
-        Game.level = 1;
-        Game.lives = 3;
-        restartGame = -1;
-        Obstacle.X_initial=1600;
     }
 }
