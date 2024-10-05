@@ -13,6 +13,7 @@ public class Game extends JPanel {
 
     Dino dino = new Dino(this);
     Obstacle obstacle = new Obstacle(this);
+    Background background = new Background(this);
 
     /**
      * Game ended flag.
@@ -91,13 +92,15 @@ public class Game extends JPanel {
        setFocusable(true);
     }
 
+
     /**
      * Moves the game components.
-     * Calls the move method for the obstacle and the dino.
+     * This method moves the obstacle, the dino and the background.
      */
     public void move (){
         obstacle.move();
         dino.move();
+        background.move();
     }
 
     /**
@@ -116,14 +119,16 @@ public class Game extends JPanel {
     }
 
     /**
-     * Paints the game in the game window.
-     * Paints the dino and the obstacle in the game window, and then moves them.
+     * Paints the game components in the game window.
+     * This method paints the dino, the obstacle and the background in the game window.
+     * It also moves the game components.
      *
-     * @param g The Graphics2D object used to paint the game.
+     * @param g The Graphics2D object used to paint the game components.
      */
     public void paint(Graphics2D g){
         dino.paint(g);
         obstacle.paint(g);
+        background.paint(g);
         move();
     }
 
@@ -236,11 +241,13 @@ public class Game extends JPanel {
      */
     private void restartGameValues() {
         Game.gameEnded = false;
-        Obstacle.X_aux = -4;
         Game.points = 0;
         Game.level = 1;
         Game.lives = 3;
         Dino.X_initial = 50;
+        Obstacle.X_aux = -4;
         Obstacle.X_initial=1600;
+        Background.X_aux = 0;
+        Background.X_initial = 1600;
     }
 }
